@@ -1,0 +1,14 @@
+{
+  "name": "idea-genesis-ai",
+  "version": "1.0.0",
+  "description": "AI Invention and Innovation Studio",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google/genai": "*",
+    "dotenv": "*",
+    "express": "*"
+  }
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d18">
+  <title>IDEA GENESIS AI — Invention Studio</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">✦</span><span>IDEA GENESIS <small>AI STUDIO</small></span></div>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-btn active" data-view="dashboard">⌂ <span>Dashboard</span></button>
+      <button class="nav-btn" data-view="create">✧ <span>Create Invention</span></button>
+      <button class="nav-btn" data-view="saved">▣ <span>My Inventions</span></button>
+      <button class="nav-btn" data-view="designer">◈ <span>3D Designer</span></button>
+      <button class="nav-btn" data-view="research">⌕ <span>Patent Research</span></button>
+      <div class="sidebar-bottom">
+        <div class="status-dot"></div><span>Studio ready</span>
+        <small id="apiStatus">Checking AI connection…</small>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow">YOUR IDEAS. YOUR NEXT BREAKTHROUGH.</div><h1 id="pageTitle">Invention Dashboard</h1></div>
+        <div class="top-actions"><span class="language-pill">EN / HI</span><button class="primary small" id="topCreate">＋ New idea</button></div>
+      </header>
+
+      <section class="view active" id="dashboardView">
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">WELCOME TO THE FUTURE</div>
+            <h2>Turn a small thought<br>into a <span>big possibility.</span></h2>
+            <p>Explore invention concepts, save your ideas, and build simple 3D previews.</p>
+            <button class="primary" id="heroCreate">Start creating <span>→</span></button>
+          </div>
+          <div class="orb-wrap"><div class="orb">✦</div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div></div>
+        </div>
+        <div class="stats">
+          <div class="stat-card"><span>Saved inventions</span><strong id="savedCount">0</strong><small>Your personal collection</small></div>
+          <div class="stat-card"><span>Studio tools</span><strong>03</strong><small>AI · 3D · Research</small></div>
+          <div class="stat-card"><span>Build status</span><strong class="green-text">Ready</strong><small>Waiting for your next idea</small></div>
+        </div>
+        <div class="section-heading"><div><div class="eyebrow">YOUR WORKSPACE</div><h3>Start with a direction</h3></div></div>
+        <div class="quick-grid">
+          <button class="quick-card" data-go="create"><span>✧</span><b>Generate concepts</b><small>Explore ideas with AI</small></button>
+          <button class="quick-card" data-go="designer"><span>◈</span><b>Build a 3D preview</b><small>Visualize a simple shape</small></button>
+          <button class="quick-card" data-go="research"><span>⌕</span><b>Search patents</b><small>Look for similar inventions</small></button>
+        </div>
+      </section>
+
+      <section class="view" id="createView">
+        <div class="panel">
+          <div class="eyebrow">AI INVENTION GENERATOR</div><h2>What problem do you want to solve?</h2>
+          <p class="muted">Describe a problem, an idea, or something you wish worked better.</p>
+          <label for="ideaInput">YOUR IDEA / PROBLEM</label>
+          <textarea id="ideaInput" maxlength="1800" placeholder="Example: Students sometimes forget which books to carry to school..."></textarea>
+          <div class="form-row">
+            <div><label for="category">CATEGORY</label><select id="category"><option>Any</option><option>Education</option><option>Environment</option><option>Home</option><option>Technology</option><option>Transport</option><option>Agriculture</option></select></div>
+            <div><label for="complexity">COMPLEXITY</label><select id="complexity"><option>Practical</option><option>Beginner prototype</option><option>Advanced concept</option></select></div>
+            <div><label for="language">LANGUAGE</label><select id="language"><option>English</option><option>Hindi</option></select></div>
+          </div>
+          <button class="primary" id="generateBtn">✦ Generate with AI</button>
+          <p class="hint">AI ideas are brainstorming suggestions, not proof of originality or safety certification.</p>
+        </div>
+        <div id="results" class="results"></div>
+      </section>
+
+      <section class="view" id="savedView">
+        <div class="section-heading"><div><div class="eyebrow">YOUR COLLECTION</div><h3>My Inventions</h3></div></div>
+        <div id="savedList" class="results"></div>
+      </section>
+
+      <section class="view" id="designerView">
+        <div class="panel">
+          <div class="eyebrow">3D CONCEPT PREVIEW</div><h2>Simple 3D Designer</h2>
+          <p class="muted">Choose a basic shape to preview. This is a visual mock-up, not an engineering-ready design.</p>
+          <div class="designer-controls">
+            <label>SHAPE <select id="shapeSelect"><option value="box">Box</option><option value="sphere">Sphere</option><option value="cylinder">Cylinder</option><option value="torus">Ring</option></select></label>
+            <label>COLOR <input type="color" id="shapeColor" value="#7c5cff"></label>
+            <button class="secondary" id="reset3d">Reset view</button>
+          </div>
+          <div id="threeCanvas" class="three-canvas"><div class="canvas-loading">Loading 3D preview…</div></div>
+          <p class="hint">Drag to rotate · Scroll to zoom (where supported).</p>
+        </div>
+      </section>
+
+      <section class="view" id="researchView">
+        <div class="panel">
+          <div class="eyebrow">EARLY-PHASE RESEARCH</div><h2>Explore similar patents</h2>
+          <p class="muted">Search using a short invention name or a few keywords.</p>
+          <label for="patentQuery">INVENTION NAME / KEYWORDS</label>
+          <input id="patentQuery" type="text" placeholder="Example: smart school bag reminder">
+          <button class="primary" id="patentBtn">Search Google Patents ↗</button>
+          <div id="patentResult" class="patent-result"></div>
+          <p class="hint">A keyword search can miss related patents. It does not establish whether an invention is new or legally patentable.</p>
+        </div>
+      </section>
+
+      <footer>IDEA GENESIS AI <span>Independent invention brainstorming workspace</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

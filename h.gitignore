@@ -1,0 +1,9 @@
+# Secret API key files
+h.env
+.env
+
+# Node.js dependencies
+node_modules/
+
+# Debug logs
+npm-debug.log*
